@@ -9,6 +9,8 @@ int tDays;
 int onDays;
 int offDays;
 
+void display();
+
 int main(int argc, char *argv[])
 {
     cout << "days in a work week: ";
@@ -19,4 +21,19 @@ int main(int argc, char *argv[])
     cin >> offDays;
 
     
+}
+
+void display()
+{
+    cout << "#---#---#---#---#---#---#---#";
+    cout << "|Sun|Mon|Tue|Wed|Thr|Fri|Sat|";
+    cout << "#---#---#---#---#---#---#---#";
+    cout << "|   |   |   |   |   |   |   |";
+    cout << "#---#---#---#---#---#---#---#";
+    cout << "|   |   |   |   |   |   |   |";
+    cout << "#---#---#---#---#---#---#---#";
+    cout << "|   |   |   |   |   |   |   |";
+    cout << "#---#---#---#---#---#---#---#";
+    cout << "|   |   |   |   |   |   |   |";
+    cout << "#---#---#---#---#---#---#---#";
 }
