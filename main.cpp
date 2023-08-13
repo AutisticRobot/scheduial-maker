@@ -17,37 +17,22 @@ bool getDay(int day);//returns the type of the input day;
 
 int main(int argc, char *argv[])
 {
-    bool validLayout = false;
-    while(!validLayout)
-    {
-        cout << "days in a work week: ";
-        cin >> tDays;
-        cout << "working days in a work week: ";
-        cin >> onDays;
-        cout << "non-working days in a work week: ";
-        cin >> offDays;
+    cout << "working days in a work week: ";
+    cin >> onDays;
+    cout << "non-working days in a work week: ";
+    cin >> offDays;
 
-        if((onDays + offDays) != tDays)
-        {
-            if((onDays + offDays) > tDays)
-            {
-                cout << "Too many days" << endl;
-            }else{
-                cout << "Not enough days" << endl;
-            }
-        }else{
-            validLayout = true;
-        }
-    }
+    tDays = onDays + offDays;
 
     displayMonth(-1,30);
 }
 
 void displayMonth(int offset, int displayDays)// display the curent schedule for a month;
 {
-    cout << "#---#---#---#---#---#---#---#" << endl;
-    cout << "|Sun|Mon|Tue|Wed|Thr|Fri|Sat|" << endl;
-    cout << "#---#---#---#---#---#---#---#" << endl;
+    cout << "/=====#=====#=====#=====#=====#=====#=====\\" << endl;
+    cout << "|-Sun-|-Mon-|-Tue-|-Wed-|-Thr-|-Fri-|-Sat-|" << endl;
+    cout << "#=====#=====#=====#=====#=====#=====#=====#" << endl;
+
     displayWeek(0+offset);
     displayWeek(7+offset);
     displayWeek(14+offset);
@@ -55,19 +40,21 @@ void displayMonth(int offset, int displayDays)// display the curent schedule for
 
 void displayWeek(int offset)//helper function to display a week;
 {
+    cout << "|     |     |     |     |     |     |     |" << endl;
     for(int i=0;i<7;i++)
     {
         bool actDay = getDay(offset++);
-        cout << "| ";
+        cout << "|  ";
         if(actDay)
         {
-            cout << "X ";
+            cout << "X  ";
         }else{
-            cout << "  ";
+            cout << "   ";
         }
     }
     cout << "|" << endl;
-    cout << "#---#---#---#---#---#---#---#" << endl;
+    cout << "|     |     |     |     |     |     |     |" << endl;
+    cout << "#-----#-----#-----#-----#-----#-----#-----#" << endl;
 }
 
 bool getDay(int day)//returns the type of the input day;
