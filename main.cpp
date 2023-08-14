@@ -5,45 +5,65 @@
 #include <iostream>
 using namespace std;
 
-int tDays;
-int onDays;
-int offDays;
+int employeeCount;
+int* tDays;
+int* onDays;
+int* offDays;
 
-void displayMonth(int offset = 0, int displayDays = 30);// display the curent schedule for a month;
-void displayWeek(int offset = 0);//helper function to display a week;
 
-bool getDay(int day);//returns the type of the input day;
+void displayMonth(int empNum, int offset = 0, int displayDays = 30);// display the curent schedule for a month;
+void displayWeek(int empNum, int offset = 0);//helper function to display a week;
+void getSced(int empNum); //(Sced = Schedule) get number of on and off days from user;
+
+bool getDay(int empNum, int day);//returns the type of the input day;
 //(true=onDay,false=offDay);
 
 int main(int argc, char *argv[])
 {
-    cout << "working days in a work week: ";
-    cin >> onDays;
-    cout << "non-working days in a work week: ";
-    cin >> offDays;
+    cout << "number of employees: ";
+    cin >> employeeCount;
 
-    tDays = onDays + offDays;
+    tDays   = new int[employeeCount];
+    onDays  = new int[employeeCount];
+    offDays = new int[employeeCount];
 
-    displayMonth(-1,30);
+    for(int i=0;i<employeeCount;i++)
+    {
+        getSced(i);
+    }
+    for(int i=0;i<employeeCount;i++)
+    {
+        displayMonth(i);
+    }
 }
 
-void displayMonth(int offset, int displayDays)// display the curent schedule for a month;
+void getSced(int empNum) //(Sced = Schedule) get number of on and off days from user;
+{
+    cout << "working days in a work week: ";
+    cin >> onDays[empNum];
+    cout << "non-working days in a work week: ";
+    cin >> offDays[empNum];
+
+    tDays[empNum] = onDays[empNum] + offDays[empNum];
+}
+
+void displayMonth(int empNum, int offset, int displayDays)// display the curent schedule for a month;
 {
     cout << "/=====#=====#=====#=====#=====#=====#=====\\" << endl;
     cout << "|-Sun-|-Mon-|-Tue-|-Wed-|-Thr-|-Fri-|-Sat-|" << endl;
     cout << "#=====#=====#=====#=====#=====#=====#=====#" << endl;
 
-    displayWeek(0+offset);
-    displayWeek(7+offset);
-    displayWeek(14+offset);
+    displayWeek(empNum, 0+offset);
+    displayWeek(empNum, 7+offset);
+    displayWeek(empNum, 14+offset);
 }
 
-void displayWeek(int offset)//helper function to display a week;
+void displayWeek(int empNum, int offset)//helper function to display a week;
 {
     cout << "|     |     |     |     |     |     |     |" << endl;
     for(int i=0;i<7;i++)
     {
-        bool actDay = getDay(offset++);
+        bool actDay = getDay(empNum, offset++);
         cout << "|  ";
         if(actDay)
         {
@@ -57,18 +77,18 @@ void displayWeek(int offset)//helper function to display a week;
     cout << "#-----#-----#-----#-----#-----#-----#-----#" << endl;
 }
 
-bool getDay(int day)//returns the type of the input day;
+bool getDay(int empNum, int day)//returns the type of the input day;
 {
     int dayOfWeek;
     if(day > 0)
     {
-        dayOfWeek = day % tDays;
+        dayOfWeek = day % tDays[empNum];
     }else{
-        dayOfWeek = -day % tDays;
-        dayOfWeek = tDays - dayOfWeek;
-        dayOfWeek = dayOfWeek % tDays;
+        dayOfWeek = -day % tDays[empNum];
+        dayOfWeek = tDays[empNum] - dayOfWeek;
+        dayOfWeek = dayOfWeek % tDays[empNum];
     }
-    if(dayOfWeek >= onDays)
+    if(dayOfWeek >= onDays[empNum])
     {
         return false;
     }else{
