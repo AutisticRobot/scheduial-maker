@@ -3,7 +3,14 @@
 // made by Tyler M. Kormann (tylerkormann.com)
 
 #include <iostream>
+#include <string>
 using namespace std;
+
+
+const int dspOrder[15] = {7,5,12,1,10,3,8,0,13,2,11,4,9,6,14};
+// 7, 1, 8, 2, 9
+// 5,10, 0,11, 6
+//12, 3,13, 4,14
 
 int employeeCount;
 int* tDays;
@@ -12,12 +19,11 @@ int* offDays;
 int* schOffset;
 
 
-void displayMonth(int empNum, int offset = 0, int displayDays = 30);// display the curent schedule for a month;
-void displayWeek(int empNum, int offset = 0);//helper function to display a week;
+void displayMonth(int weeks = 3, int offset = 0);// display the curent schedule for a month;
+void displayWeek(int offset = 0);//helper function to display a week;
 void getSced(int empNum); //(Sced = Schedule) get number of on and off days from user;
 
-bool getDay(int empNum, int day);//returns the type of the input day;
-//(true=onDay,false=offDay);
+string getDay(int empTmp, int day, int offset);//returns the type of the input day;
 
 int main(int argc, char *argv[])
 {
@@ -33,10 +39,7 @@ int main(int argc, char *argv[])
     {
         getSced(i);
     }
-    for(int i=0;i<employeeCount;i++)
-    {
-        displayMonth(i);
-    }
+    displayMonth();
 }
 
 void getSced(int empNum) //(Sced = Schedule) get number of on and off days from user;
@@ -57,40 +60,64 @@ void getSced(int empNum) //(Sced = Schedule) get number of on and off days from 
     }
 }
 
-void displayMonth(int empNum, int offset, int displayDays)// display the curent schedule for a month;
+void displayMonth(int weeks, int offset)// display the curent schedule for a month;
 {
     cout << "/=====#=====#=====#=====#=====#=====#=====\\" << endl;
     cout << "|-Sun-|-Mon-|-Tue-|-Wed-|-Thr-|-Fri-|-Sat-|" << endl;
     cout << "#=====#=====#=====#=====#=====#=====#=====#" << endl;
 
-    displayWeek(empNum, 0+offset);
-    displayWeek(empNum, 7+offset);
-    displayWeek(empNum, 14+offset);
+    for(int i=0;i<weeks;i++)
+    {
+        displayWeek((i*7)+offset);
+    }
 }
 
-void displayWeek(int empNum, int offset)//helper function to display a week;
+void displayWeek(int offset)//helper function to display a week;
 {
-    offset += schOffset[empNum];
+    string line1 = "|";
+    string line2 = "|";
+    string line3 = "|";
 
-    cout << "|     |     |     |     |     |     |     |" << endl;
-    for(int i=0;i<7;i++)
+    for(int i=0;i<126;i++)
     {
-        bool actDay = getDay(empNum, offset++);
-        cout << "|  ";
-        if(actDay)
+        string tmp = "";
+        if((i % 18) > 14)
         {
-            cout << "X  ";
+            tmp += "|";
         }else{
-            cout << "   ";
+            int day = (i-(i%18))/18;
+            tmp += getDay(i%18, day, offset);
+        }
+
+        switch(i%3)
+        {
+            case 0:
+            line1 += tmp;
+            break;
+            case 1:
+            line2 += tmp;
+            break;
+            case 2:
+            line3 += tmp;
+            break;
         }
     }
-    cout << "|" << endl;
-    cout << "|     |     |     |     |     |     |     |" << endl;
+
+    cout << line1 << endl << line2 << endl << line3 << endl;
     cout << "#-----#-----#-----#-----#-----#-----#-----#" << endl;
 }
 
-bool getDay(int empNum, int day)//returns the type of the input day;
+string getDay(int empTmp, int day, int offset)//returns the type of the input day;
 {
+    int empNum = dspOrder[empTmp];
+
+    if(empNum >= employeeCount)
+    {
+        return " ";
+    }
+
+    day += offset + schOffset[empNum];
+
     int dayOfWeek;
     if(day > 0)
     {
@@ -102,8 +129,8 @@ bool getDay(int empNum, int day)//returns the type of the input day;
     }
     if(dayOfWeek >= onDays[empNum])
     {
-        return false;
+        return " ";
     }else{
-        return true;
+        return "X";
     }
 }
