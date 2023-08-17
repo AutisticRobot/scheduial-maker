@@ -13,10 +13,13 @@ const int dspOrder[15] = {7,5,12,1,10,3,8,0,13,2,11,4,9,6,14};
 //12, 3,13, 4,14
 
 int employeeCount;
+int weeks;
 int* tDays;
 int* onDays;
 int* offDays;
 int* schOffset;
+string* names;
+const string color[15] = {"1","2","3","4","5","6","7","8","9","10","11","52","13","93","201"};
 
 
 void displayMonth(int weeks = 3, int offset = 0);// display the curent schedule for a month;
@@ -29,17 +32,20 @@ int main(int argc, char *argv[])
 {
     cout << "number of employees: ";
     cin >> employeeCount;
+    cout << "Weeks to display: ";
+    cin >> weeks;
 
     tDays     = new int[employeeCount];
     onDays    = new int[employeeCount];
     offDays   = new int[employeeCount];
     schOffset = new int[employeeCount];
+    names     = new string[employeeCount];
 
     for(int i=0;i<employeeCount;i++)
     {
         getSced(i);
     }
-    displayMonth();
+    displayMonth(weeks);
 }
 
 void getSced(int empNum) //(Sced = Schedule) get number of on and off days from user;
@@ -83,7 +89,7 @@ void displayWeek(int offset)//helper function to display a week;
         string tmp = "";
         if((i % 18) > 14)
         {
-            tmp += "|";
+            tmp += "\033[38;5;15m\033[48;5;0m|";
         }else{
             int day = (i-(i%18))/18;
             tmp += getDay(i%18, day, offset);
@@ -131,6 +137,6 @@ string getDay(int empTmp, int day, int offset)//returns the type of the input da
     {
         return " ";
     }else{
-        return "X";
+        return "\033[38;5;" + color[empTmp] + "mX";
     }
 }
