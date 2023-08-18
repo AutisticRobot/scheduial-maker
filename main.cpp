@@ -8,6 +8,7 @@ using namespace std;
 
 
 const int dspOrder[15] = {7,5,12,1,10,3,8,0,13,2,11,4,9,6,14};
+const int dspOrderH[15] = {7,1,8,2,9,5,10,0,11,6,12,3,13,4,14};
 // 7, 1, 8, 2, 9
 // 5,10, 0,11, 6
 //12, 3,13, 4,14
@@ -25,6 +26,7 @@ const string color[15] = {"1","2","3","4","5","6","7","8","9","10","11","52","13
 void displayMonth(int weeks = 3, int offset = 0);// display the curent schedule for a month;
 void displayWeek(int offset = 0);//helper function to display a week;
 void getSced(int empNum); //(Sced = Schedule) get number of on and off days from user;
+void displayLegend();//function to diplay the names for each schedule;
 
 string getDay(int empTmp, int day, int offset);//returns the type of the input day;
 
@@ -46,6 +48,8 @@ int main(int argc, char *argv[])
         getSced(i);
     }
     displayMonth(weeks);
+
+    displayLegend();
 }
 
 void getSced(int empNum) //(Sced = Schedule) get number of on and off days from user;
@@ -55,6 +59,8 @@ void getSced(int empNum) //(Sced = Schedule) get number of on and off days from 
     cin >> onDays[empNum];
     cout << "non-working days in a work week: ";
     cin >> offDays[empNum];
+    cout << "Name of the employee: ";
+    cin >> names[empNum];
     cout << "-----------------------------------" << endl;
 
     tDays[empNum] = onDays[empNum] + offDays[empNum];
@@ -137,6 +143,37 @@ string getDay(int empTmp, int day, int offset)//returns the type of the input da
     {
         return " ";
     }else{
-        return "\033[38;5;" + color[empTmp] + "mX";
+        return "\033[38;5;" + color[empNum] + "mX";
+    }
+}
+
+void displayLegend()//function to diplay the names for each schedule;
+{
+    cout << endl;
+    cout << "*---------------------------Legend--------------------------*" << endl;
+    for(int i=0;i<18;i++)
+    {
+
+
+        if((i%6)==5)
+        {
+            cout << "\033[38;5;15m";
+            cout << endl;
+        }else{
+            int empTmp = i;
+            if(i>5)
+            {
+                empTmp--;
+            }
+            if(i>11)
+            {
+                empTmp--;
+            }
+            int empNum = dspOrderH[empTmp];
+
+            string output = "\033[38;5;" + color[empNum] + "mX " + names[empNum] + "\t\t";
+            
+            cout << output;
+        }
     }
 }
