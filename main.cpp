@@ -3,6 +3,7 @@
 // made by Tyler M. Kormann (tylerkormann.com)
 
 #include <iostream>
+#include <fstream>
 #include <string>
 using namespace std;
 
@@ -23,6 +24,7 @@ string* names;
 const string color[15] = {"1","2","3","4","5","6","7","8","9","10","11","52","13","93","201"};
 
 
+void outToFile(char *argv[]);//Main function for out to file mode;
 void displayMonth(int weeks = 3, int offset = 0);// display the curent schedule for a month;
 void displayWeek(int offset = 0);//helper function to display a week;
 void getSced(int empNum); //(Sced = Schedule) get number of on and off days from user;
@@ -32,24 +34,35 @@ string getDay(int empTmp, int day, int offset);//returns the type of the input d
 
 int main(int argc, char *argv[])
 {
-    cout << "number of employees: ";
-    cin >> employeeCount;
-    cout << "Weeks to display: ";
-    cin >> weeks;
-
-    tDays     = new int[employeeCount];
-    onDays    = new int[employeeCount];
-    offDays   = new int[employeeCount];
-    schOffset = new int[employeeCount];
-    names     = new string[employeeCount];
-
-    for(int i=0;i<employeeCount;i++)
+    if(argc == 2)
     {
-        getSced(i);
-    }
-    displayMonth(weeks);
+        outToFile(argv);
+    }else{
+        cout << "number of employees: ";
+        cin >> employeeCount;
+        cout << "Weeks to display: ";
+        cin >> weeks;
 
-    displayLegend();
+        tDays     = new int[employeeCount];
+        onDays    = new int[employeeCount];
+        offDays   = new int[employeeCount];
+        schOffset = new int[employeeCount];
+        names     = new string[employeeCount];
+
+        for(int i=0;i<employeeCount;i++)
+        {
+            getSced(i);
+        }
+        displayMonth(weeks);
+
+        displayLegend();
+    }
+}
+
+void outToFile(char *argv[])
+{
+    cout << "arg Test Successful" << endl;
+    cout << argv[1] << endl;
 }
 
 void getSced(int empNum) //(Sced = Schedule) get number of on and off days from user;
