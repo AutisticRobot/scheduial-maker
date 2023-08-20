@@ -1,0 +1,6 @@
+List of features I want to add so I dont forget.
+-I/O to File;
+-GUI
+-multi schedule output(same shift, different employees)
+-employee range input for display functions
+-multi shift support;

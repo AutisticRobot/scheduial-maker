@@ -24,6 +24,7 @@ string* names;
 const string color[15] = {"1","2","3","4","5","6","7","8","9","10","11","52","13","93","201"};
 
 
+void outToTerminal(int argc, char *argv[]);//Main file for CLI mode;
 void outToFile(char *argv[]);//Main function for out to file mode;
 void displayMonth(int weeks = 3, int offset = 0);// display the curent schedule for a month;
 void displayWeek(int offset = 0);//helper function to display a week;
@@ -38,26 +39,32 @@ int main(int argc, char *argv[])
     {
         outToFile(argv);
     }else{
-        cout << "number of employees: ";
-        cin >> employeeCount;
-        cout << "Weeks to display: ";
-        cin >> weeks;
-
-        tDays     = new int[employeeCount];
-        onDays    = new int[employeeCount];
-        offDays   = new int[employeeCount];
-        schOffset = new int[employeeCount];
-        names     = new string[employeeCount];
-
-        for(int i=0;i<employeeCount;i++)
-        {
-            getSced(i);
-        }
-        displayMonth(weeks);
-
-        displayLegend();
+        outToTerminal(argc, argv);
     }
 }
+
+void outToTerminal(int argc, char *argv[])//Main file for CLI mode;
+{
+    cout << "number of employees: ";
+    cin >> employeeCount;
+    cout << "Weeks to display: ";
+    cin >> weeks;
+
+    tDays     = new int[employeeCount];
+    onDays    = new int[employeeCount];
+    offDays   = new int[employeeCount];
+    schOffset = new int[employeeCount];
+    names     = new string[employeeCount];
+
+    for(int i=0;i<employeeCount;i++)
+    {
+        getSced(i);
+    }
+
+    displayMonth(weeks);
+    displayLegend();
+}
+
 
 void outToFile(char *argv[])
 {
