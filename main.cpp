@@ -68,8 +68,7 @@ void outToTerminal(int argc, char *argv[])//Main file for CLI mode;
 
 void outToFile(char *argv[])
 {
-    cout << "arg Test Successful" << endl;
-    cout << argv[1] << endl;
+    const int argc = 2;
 }
 
 void getSced(int empNum) //(Sced = Schedule) get number of on and off days from user;
