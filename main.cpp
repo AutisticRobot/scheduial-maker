@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <cstdlib>
 #include <string>
 using namespace std;
 
@@ -69,6 +70,42 @@ void outToTerminal(int argc, char *argv[])//Main file for CLI mode;
 void outToFile(char *argv[])
 {
     const int argc = 2;
+    string curLine = "";
+
+    ifstream inFile;
+    inFile.open(argv[1]);
+
+    if(!inFile.is_open())
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    inFile >> employeeCount;
+    inFile >> weeks;
+    int empNum = 0;
+    tDays     = new int[employeeCount];
+    onDays    = new int[employeeCount];
+    offDays   = new int[employeeCount];
+    schOffset = new int[employeeCount];
+    names     = new string[employeeCount];
+    while(inFile.good())
+    {   
+        inFile >> onDays[empNum];
+        inFile >> offDays[empNum];
+        inFile >> names[empNum];
+
+        tDays[empNum] = onDays[empNum] + offDays[empNum];
+        if(empNum != 0)
+        {
+        schOffset[empNum] = schOffset[empNum-1] - onDays[empNum-1];//1st try at schedule offset, and it only works with one shift;
+        }else{
+            schOffset[0] = 0;
+        }
+
+        empNum++;
+    }
+
+    displayMonth(weeks);
 }
 
 void getSced(int empNum) //(Sced = Schedule) get number of on and off days from user;
