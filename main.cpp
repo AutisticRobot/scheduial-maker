@@ -106,6 +106,7 @@ void outToFile(char *argv[])
     }
 
     displayMonth(weeks);
+    displayLegend();
 }
 
 void getSced(int empNum) //(Sced = Schedule) get number of on and off days from user;
@@ -206,30 +207,37 @@ string getDay(int empTmp, int day, int offset)//returns the type of the input da
 void displayLegend()//function to diplay the names for each schedule;
 {
     cout << endl;
-    cout << "*---------------------------Legend--------------------------*" << endl;
-    for(int i=0;i<18;i++)
+    cout << "*-------------------------------------Legend------------------------------------*" << endl;
+    for(int i=0;i<15;i++)
     {
 
+        int empNum = dspOrderH[i];
 
-        if((i%6)==5)
+        string output;
+        string outName;
+        string outColor;
+        if(empNum < employeeCount)
         {
-            cout << "\033[38;5;15m";
-            cout << endl;
+            outName = "X " + names[empNum];
+            outColor = "\033[38;5;" + color[empNum] + "m";
         }else{
-            int empTmp = i;
-            if(i>5)
-            {
-                empTmp--;
-            }
-            if(i>11)
-            {
-                empTmp--;
-            }
-            int empNum = dspOrderH[empTmp];
+            outName = "";
+            outColor = "";
+        }
+        if(outName.length() < 6)
+        {
+            outName += "\t";
+        }
+        outName += "\t";
 
-            string output = "\033[38;5;" + color[empNum] + "mX " + names[empNum] + "\t\t";
-            
-            cout << output;
+        output = outColor + "|" + outName + "|\033[38;5;15m";
+
+        
+        
+        cout << output;
+        if(i%5 == 4)
+        {
+            cout << endl;
         }
     }
 }
