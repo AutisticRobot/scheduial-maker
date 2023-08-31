@@ -7,3 +7,5 @@ List of features I want to add so I dont forget.
 -support for odd schedules I.E 3 on, 2 off, 5 on, 2 off;
 -make eatch employee a class object
 -schedule preset creation and use;
+-ability to set non working days for each emplyee
+-calculate the minimum number of employees needed to fill every day and shift with at least X number of people; 
